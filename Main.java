@@ -38,11 +38,15 @@ public class Main {
         int previousOrder = 715;
 
         System.out.println(thanks + " " + name.toUpperCase() + "\n" + order + (++previousOrder));
+
          */
+
 
         Scanner sc = new Scanner(System.in);
         System.out.print("How many walls do you want to paint? ");
         int numberOfWalls = sc.nextInt();
+        //create array of walls
+        float[][] walls = new float[numberOfWalls][3];
         float totalArea = 0;
 
         for (int i = 1; i <= numberOfWalls; i++) {
@@ -51,24 +55,55 @@ public class Main {
             System.out.print("What is the width of wall " + i + " (m)? ");
             float widthOfWall = sc.nextFloat();
             float areaOfWall = heightOfWall * widthOfWall;
+            float[] thisWall = {heightOfWall, widthOfWall, areaOfWall};
+            walls[i-1] = thisWall;
             totalArea = totalArea + areaOfWall;
         }
 
         System.out.print("Are there any voids in your walls (e.g. window, skirting boards, light switches etc.)? ");
         String yesNo = sc.next();
         yesNo = yesNo.toUpperCase();
+        //create array of windows
+        boolean validAnswer = yesNo.equals("YES") || yesNo.equals("NO");
+        while (!validAnswer){
+            System.out.println("Please enter either Yes or No.");
+            yesNo = sc.next();
+            yesNo = yesNo.toUpperCase();
+            validAnswer = yesNo.equals("YES") || yesNo.equals("NO");
+            System.out.println(yesNo+validAnswer);
+        }
+
         if (yesNo.equals("YES")) {
             System.out.println("How many voids are in your walls? ");
             int numberOfVoids = sc.nextInt();
+            float[][] voids = new float[numberOfVoids][3];
             for (int i = 1; i <= numberOfVoids; i++) {
+                System.out.println("Which wall is void " + i + " on? (e.g. 1, 2, 3...) ");
+                int wallNumber = sc.nextInt();
+                while (wallNumber > numberOfWalls){
+                    System.out.println("You haven;t entered that number of walls." + "\n" + "Please select a previously entered wall");
+                    wallNumber = sc.nextInt();
+                }
                 System.out.println("What is the height of void " + i + " (m)? ");
                 float heightOfVoid = sc.nextFloat();
-                System.out.println("What is the width of void" + i + " (m)? ");
+                if (heightOfVoid>walls[wallNumber - 1][0]) {
+                    System.out.println("Your void is taller than your wall.");
+                    i = i - 1;
+                    continue;
+                }
+                System.out.println("What is the width of void " + i + " (m)? ");
                 float widthOfVoid = sc.nextFloat();
+                if(widthOfVoid>walls[wallNumber - 1][1]){
+                    System.out.println("Your void is wider than your wall.");
+                    i = i - 1;
+                    continue;
+                }
                 float areaOfVoid = heightOfVoid * widthOfVoid;
+                float[] thisVoid = {heightOfVoid, widthOfVoid, areaOfVoid};
                 totalArea = totalArea - areaOfVoid;
             }
         }
+
 
         System.out.println("You have " + totalArea + "m^2 to cover.");
 
@@ -118,6 +153,18 @@ public class Main {
                 break;
         }
 
+
+        /*int i = 1;
+        while(i<=6){
+            System.out.println(i);
+            i++;
+        }
+
+        i=1;
+        do{
+            System.out.println(i);
+            i++;
+        }while(i<=6);*/
     }
 
 }
