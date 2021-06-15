@@ -70,21 +70,40 @@ public class Main {
             }
         }
 
-        //System.out.println("You have " + totalArea + "m^2 to cover.");
-        //System.out.println("How large are your paint buckets? 2.5l, 5l, 10l? ");
-
-        //float sizeOfBucket = sc.nextFloat();
-        //switch(sizeOfBucket){
-        //    case 1:
-
-        //}
-
-
+        System.out.println("You have " + totalArea + "m^2 to cover.");
 
         double amountOfPaint = totalArea/6.5;
 
         System.out.println("You will need " + amountOfPaint + " litres of paint.");
-        int numberOfBuckets = ((int)(amountOfPaint/4) + 1);
-        System.out.println("Or " + numberOfBuckets + " bucket(s) of paint.");
+        System.out.println("How large are your paint buckets? 2.5l, 5l, 10l? ");
+
+        float sizeOfBucket = sc.nextFloat();
+
+        int bucket = 0;
+
+        if (sizeOfBucket == 2.5){
+            bucket += 1;
+        } else if (sizeOfBucket == 5){
+            bucket += 2;
+        } else if (sizeOfBucket == 10){
+            bucket += 3;
+        }
+
+        int numberOfBuckets = 0;
+
+        switch(bucket){
+            case 1:
+                numberOfBuckets = ((int)(amountOfPaint/2.5) + 1);
+                System.out.println("You'll need " + numberOfBuckets + " bucket(s) of paint.");
+                break;
+            case 2:
+                numberOfBuckets = ((int)(amountOfPaint/5) + 1);
+                System.out.println("You'll need " + numberOfBuckets + " bucket(s) of paint.");
+                break;
+            case 3:
+                numberOfBuckets = ((int)(amountOfPaint/10) + 1);
+                System.out.println("You'll need " + numberOfBuckets + " bucket(s) of paint.");
+                break;
+        }
     }
 }
