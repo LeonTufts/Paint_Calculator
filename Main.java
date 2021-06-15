@@ -44,22 +44,42 @@ public class Main {
         System.out.print("How many walls do you want to paint? ");
         int numberOfWalls = sc.nextInt();
         float totalArea = 0;
+
         for (int i = 1; i <= numberOfWalls; i++) {
             System.out.print("What is the height of wall " + i + " (m)? ");
             float heightOfWall = sc.nextFloat();
             System.out.print("What is the width of wall " + i + " (m)? ");
             float widthOfWall = sc.nextFloat();
             float areaOfWall = heightOfWall * widthOfWall;
-            //int[] allWalls = new int[numberOfWalls];
-            //allWalls[i] = areaOfWall;
             totalArea = totalArea + areaOfWall;
         }
 
-        //System.out.print("Are there any voids in your walls (e.g. window, skirting boards etc.)? ");
-        //String yesNo = sc.next();
-        //if (yesNo != ("Yes" || "yes")){
+        System.out.print("Are there any voids in your walls (e.g. window, skirting boards etc.)? ");
+        String yesNo = sc.next();
+        yesNo = yesNo.toUpperCase();
+        if (yesNo.equals("YES")) {
+            System.out.println("How many voids are in your walls? ");
+            int numberOfVoids = sc.nextInt();
+            for (int i = 1; i <= numberOfVoids; i++) {
+                System.out.println("What is the height of void " + i + " (m)? ");
+                float heightOfVoid = sc.nextFloat();
+                System.out.println("What is the width of void" + i + " (m)? ");
+                float widthOfVoid = sc.nextFloat();
+                float areaOfVoid = heightOfVoid * widthOfVoid;
+                totalArea = totalArea - areaOfVoid;
+            }
+        }
 
-        System.out.println("You have " + totalArea + "m^2 to cover.");
+        //System.out.println("You have " + totalArea + "m^2 to cover.");
+        //System.out.println("How large are your paint buckets? 2.5l, 5l, 10l? ");
+
+        //float sizeOfBucket = sc.nextFloat();
+        //switch(sizeOfBucket){
+        //    case 1:
+
+        //}
+
+
 
         double amountOfPaint = totalArea/6.5;
 
