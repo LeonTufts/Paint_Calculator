@@ -54,7 +54,7 @@ public class Main {
             totalArea = totalArea + areaOfWall;
         }
 
-        System.out.print("Are there any voids in your walls (e.g. window, skirting boards etc.)? ");
+        System.out.print("Are there any voids in your walls (e.g. window, skirting boards, light switches etc.)? ");
         String yesNo = sc.next();
         yesNo = yesNo.toUpperCase();
         if (yesNo.equals("YES")) {
@@ -74,7 +74,7 @@ public class Main {
 
         double amountOfPaint = totalArea/6.5;
 
-        System.out.println("You will need " + amountOfPaint + " litres of paint.");
+        System.out.println("You will need " + amountOfPaint + " litres of paint, assuming 1L of paint covers 6.5m^2.");
         System.out.println("How large are your paint buckets? 2.5l, 5l, 10l? ");
 
         float sizeOfBucket = sc.nextFloat();
@@ -93,17 +93,31 @@ public class Main {
 
         switch(bucket){
             case 1:
-                numberOfBuckets = ((int)(amountOfPaint/2.5) + 1);
+                if (amountOfPaint%2.5 == 0){
+                    numberOfBuckets = ((int)(amountOfPaint/2.5));
+                }else{
+                    numberOfBuckets = ((int)(amountOfPaint/2.5) + 1);
+                }
                 System.out.println("You'll need " + numberOfBuckets + " bucket(s) of paint.");
                 break;
             case 2:
-                numberOfBuckets = ((int)(amountOfPaint/5) + 1);
+                if (amountOfPaint%2.5 == 0){
+                    numberOfBuckets = ((int)(amountOfPaint/5));
+                }else{
+                    numberOfBuckets = ((int)(amountOfPaint/5) + 1);
+                }
                 System.out.println("You'll need " + numberOfBuckets + " bucket(s) of paint.");
                 break;
             case 3:
-                numberOfBuckets = ((int)(amountOfPaint/10) + 1);
+                if (amountOfPaint%2.5 == 0){
+                    numberOfBuckets = ((int)(amountOfPaint/10));
+                }else{
+                    numberOfBuckets = ((int)(amountOfPaint/10) + 1);
+                }
                 System.out.println("You'll need " + numberOfBuckets + " bucket(s) of paint.");
                 break;
         }
+
     }
+
 }
