@@ -1,51 +1,17 @@
 package com.company;
 
 import java.io.StringBufferInputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        /*
-        int myInt = 5;
-        double myDouble = myInt;
-
-        System.out.println(myInt);
-        System.out.println(myDouble);
-
-        byte q_1 = 14;
-        char q_2 = 'Y';
-        String q_3 = "Hello!";
-        float q_4 = 2.5f;
-        int q_5 = 307;
-        int q_6 = -1;
-        long q_7 = 438000000;
-        boolean q_8 = false;
-
-        System.out.println(q_1);
-        System.out.println(q_2);
-        System.out.println(q_3);
-        System.out.println(q_4);
-        System.out.println(q_5);
-        System.out.println(q_6);
-        System.out.println(q_7);
-        System.out.println(q_8);
-
-        String thanks = "Thank you,";
-        String name = "miguel!";
-        String order = "Your order number is #";
-        int previousOrder = 715;
-
-        System.out.println(thanks + " " + name.toUpperCase() + "\n" + order + (++previousOrder));
-
-         */
-
-
         Scanner sc = new Scanner(System.in);
         System.out.print("How many walls do you want to paint? ");
         int numberOfWalls = sc.nextInt();
-        //create array of walls
+
         float[][] walls = new float[numberOfWalls][3];
         float totalArea = 0;
 
@@ -61,17 +27,8 @@ public class Main {
         }
 
         System.out.print("Are there any voids in your walls (e.g. window, skirting boards, light switches etc.)? ");
-        String yesNo = sc.next();
-        yesNo = yesNo.toUpperCase();
-        //create array of windows
-        boolean validAnswer = yesNo.equals("YES") || yesNo.equals("NO");
-        while (!validAnswer){
-            System.out.println("Please enter either Yes or No.");
-            yesNo = sc.next();
-            yesNo = yesNo.toUpperCase();
-            validAnswer = yesNo.equals("YES") || yesNo.equals("NO");
-            System.out.println(yesNo+validAnswer);
-        }
+
+        String yesNo = yesNoVerifier();
 
         if (yesNo.equals("YES")) {
             System.out.println("How many voids are in your walls? ");
@@ -81,7 +38,7 @@ public class Main {
                 System.out.println("Which wall is void " + i + " on? (e.g. 1, 2, 3...) ");
                 int wallNumber = sc.nextInt();
                 while (wallNumber > numberOfWalls){
-                    System.out.println("You haven;t entered that number of walls." + "\n" + "Please select a previously entered wall");
+                    System.out.println("You haven't entered that number of walls." + "\n" + "Please select a previously entered wall");
                     wallNumber = sc.nextInt();
                 }
                 System.out.println("What is the height of void " + i + " (m)? ");
@@ -100,71 +57,73 @@ public class Main {
                 }
                 float areaOfVoid = heightOfVoid * widthOfVoid;
                 float[] thisVoid = {heightOfVoid, widthOfVoid, areaOfVoid};
+                walls[wallNumber-1][2] = walls[wallNumber-1][2] - areaOfVoid;
                 totalArea = totalArea - areaOfVoid;
             }
         }
 
-
         System.out.println("You have " + totalArea + "m^2 to cover.");
 
-        double amountOfPaint = totalArea/6.5;
+        double amountOfPaint = totalArea/12;
 
-        System.out.println("You will need " + amountOfPaint + " litres of paint, assuming 1L of paint covers 6.5m^2.");
-        System.out.println("How large are your paint buckets? 2.5l, 5l, 10l? ");
+        System.out.println("You will need " + amountOfPaint + " litres of paint, assuming 1L of emulsion paint covers 12m^2.");
+        
+        int[] numberOfBuckets = howManyBuckets(amountOfPaint);
 
-        float sizeOfBucket = sc.nextFloat();
+        System.out.println("You will need: \n" + numberOfBuckets[0] + " |10 Litre buckets");
+        System.out.println(numberOfBuckets[1] + " |5 Litre buckets");
+        System.out.println(numberOfBuckets[2] + " |2.5 Litre buckets");
 
-        int bucket = 0;
+        System.out.println("Would you like to see a wall by wall breakdown? ");
 
-        if (sizeOfBucket == 2.5){
-            bucket += 1;
-        } else if (sizeOfBucket == 5){
-            bucket += 2;
-        } else if (sizeOfBucket == 10){
-            bucket += 3;
+        yesNo = yesNoVerifier();
+
+        if (yesNo.equals("YES")){
+            System.out.println(Arrays.toString(walls));
         }
 
-        int numberOfBuckets = 0;
+    }
 
-        switch(bucket){
-            case 1:
-                if (amountOfPaint%2.5 == 0){
-                    numberOfBuckets = ((int)(amountOfPaint/2.5));
-                }else{
-                    numberOfBuckets = ((int)(amountOfPaint/2.5) + 1);
-                }
-                System.out.println("You'll need " + numberOfBuckets + " bucket(s) of paint.");
-                break;
-            case 2:
-                if (amountOfPaint%2.5 == 0){
-                    numberOfBuckets = ((int)(amountOfPaint/5));
-                }else{
-                    numberOfBuckets = ((int)(amountOfPaint/5) + 1);
-                }
-                System.out.println("You'll need " + numberOfBuckets + " bucket(s) of paint.");
-                break;
-            case 3:
-                if (amountOfPaint%2.5 == 0){
-                    numberOfBuckets = ((int)(amountOfPaint/10));
-                }else{
-                    numberOfBuckets = ((int)(amountOfPaint/10) + 1);
-                }
-                System.out.println("You'll need " + numberOfBuckets + " bucket(s) of paint.");
-                break;
+    public static String yesNoVerifier() {
+
+        Scanner sc = new Scanner(System.in);
+        String yesNo = sc.next();
+
+        yesNo = yesNo.toUpperCase();
+        boolean validAnswer = yesNo.equals("YES") || yesNo.equals("NO");
+
+        while (!validAnswer) {
+            System.out.println("Please enter either Yes or No.");
+            yesNo = sc.next();
+            yesNo = yesNo.toUpperCase();
+            validAnswer = yesNo.equals("YES") || yesNo.equals("NO");
         }
 
+        return yesNo;
+    }
 
-        /*int i = 1;
-        while(i<=6){
-            System.out.println(i);
-            i++;
+    public static int[] howManyBuckets(double amountOfPaint){
+
+        int [] numberOfBuckets = new int[3];
+        double paintLeft = amountOfPaint % 10;
+
+        numberOfBuckets[0] = (int)paintLeft/10;
+
+        if(paintLeft > 7.5){
+            numberOfBuckets[0] = numberOfBuckets[0] + 1;
+            return numberOfBuckets;
+        } else if (paintLeft > 5){
+            numberOfBuckets[1] = 1;
+            numberOfBuckets[2] = 1;
+            return numberOfBuckets;
+        } else if (paintLeft > 2.5){
+            numberOfBuckets[1] = 1;
+            return numberOfBuckets;
+        }else{
+            numberOfBuckets[2] = 1;
+            return numberOfBuckets;
         }
 
-        i=1;
-        do{
-            System.out.println(i);
-            i++;
-        }while(i<=6);*/
     }
 
 }
